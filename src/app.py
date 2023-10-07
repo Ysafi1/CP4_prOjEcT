@@ -12,12 +12,12 @@ def load_pickle(filepath):
         return pickle.load(file)
 
 # Call the function to load your pickle file
-data_dict = load_pickle("fund.-of-streamlit\src\streamlit_Basics.pkl")
+data_dict = load_pickle(r'C:\Users\HP\OneDrive - Azubi Africa\Desktop\CP4\CP4_prOjEcT\src\streamlit_toolkit.pkl')
 
 # Now, you can access the components you saved in the dictionary.
-scaler = data_dict["scaler"]
-model = data_dict["model"]
-
+scaler = data_dict.get("scaler")
+model1 = data_dict.get("model1")
+model2 = data_dict.get("model2")
 
 def main():
 
@@ -69,7 +69,7 @@ def main():
 
 def home():
 
-        img = cv2.imread(r'C:\Users\USER\Desktop\streamlit_app\retail.jpg')
+        img = cv2.imread(r"C:\Users\HP\OneDrive - Azubi Africa\Pictures\Screenshot 2023-06-27 204039.png")
     # Rotate the image 90 degrees clockwise
         #img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert from BGR to RGB
@@ -124,7 +124,7 @@ def predict_sales():
                 df_encoded = df_encoded[model_columns]
 
                 # Now you can predict
-                predictions = model.predict(df_encoded)
+                predictions = model2.predict(df_encoded)
 
                 # Display predicted sales
                 st.balloons()
@@ -139,7 +139,7 @@ def predict_sales():
 
 def explore_data():
     st.title("Explore Data")
-    df = pd.read_csv(r"C:\Users\USER\Desktop\streamlit_app\fund.-of-streamlit\ts_data.csv")
+    df = pd.read_csv(r"C:\Users\HP\OneDrive - Azubi Africa\Desktop\Streamlit Basics\data.csv")
     st.write(df)
 
 def about_info():
