@@ -93,9 +93,8 @@ def predict_sales():
 
     # Form for prediction
     with st.form(key="prediction_form"):
-        id = st.number_input("put index number:")
         family =st.selectbox("What Family is your product categorize under:",['AUTOMOTIVE', 'BABY CARE','BEAUTY', 'BEVERAGES', 'BOOKS','BREAD/BAKERY', 'CELEBRATION', 'CLEANING',
-                                                                              'DAIRY', 'family_DELI', 'family_EGGS', 'family_FROZEN FOODS','GROCERY I', 'GROCERY II', 'HARDWARE',
+                                                                              'DAIRY', 'DELI', 'EGGS', 'FROZEN FOODS','GROCERY I', 'GROCERY II', 'HARDWARE',
                                                                               'HOME AND KITCHEN I', 'HOME AND KITCHEN II','HOME APPLIANCES', 'HOME CARE', 'LADIESWEAR','LAWN AND GARDEN',
                                                                               'LINGERIE', 'LIQUOR,WINE,BEER','MAGAZINES', 'MEATS', 'PERSONAL CARE','PET SUPPLIES', 'PLAYERS AND ELECTRONICS',
                                                                               'POULTRY', 'PREPARED FOODS', 'PRODUCE','SCHOOL AND OFFICE SUPPLIES', 'SEAFOOD'])
@@ -114,7 +113,6 @@ def predict_sales():
         if st.form_submit_button("Predict"):
             try:
                 df_input = pd.DataFrame({
-                    "id":[id],
                     "family":[family],
                     "oil_price":[oil_price],
                     "store_nbr":[store_nbr],
@@ -131,7 +129,7 @@ def predict_sales():
                 # Ensuring the input data has the same columns as training data
                 # Here, 'model_columns' is a list of columns used in the trained model.
                 # This might come from the training data's columns after one-hot encoding.
-                model_columns = ['id', 'store_nbr', 'onpromotion', 'oil_price','AUTOMOTIVE', 'CARE','BEAUTY', 'BEVERAGES', 'BOOKS','BREAD/BAKERY', 'CELEBRATION',
+                model_columns = ['store_nbr', 'onpromotion', 'oil_price','AUTOMOTIVE', 'CARE','BEAUTY', 'BEVERAGES', 'BOOKS','BREAD/BAKERY', 'CELEBRATION',
                                  'CLEANING','DAIRY', 'DELI', 'EGGS', 'FROZEN FOODS','GROCERY I', 'GROCERY II', 'HARDWARE','HOME AND KITCHEN I', 'HOME AND KITCHEN II',
                                  'HOME APPLIANCES', 'HOME CARE', 'LADIESWEAR','LAWN AND GARDEN', 'LINGERIE', 'LIQUOR,WINE,BEER','MAGAZINES', 'MEATS', 'PERSONAL CARE',
                                  'PET SUPPLIES', 'PLAYERS AND ELECTRONICS','POULTRY', 'PREPARED FOODS', 'PRODUCE','SCHOOL AND OFFICE SUPPLIES', 'SEAFOOD','Ambato',
