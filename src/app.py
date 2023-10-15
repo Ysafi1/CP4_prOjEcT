@@ -13,12 +13,12 @@ def load_pickle(filepath):
         return pickle.load(file)
 
 # Call the function to load your pickle file
-data_dict = load_pickle('src\streamlit_toolkit.pkl')
+data_dict = load_pickle("src/streamlit_Basics.pkl")
 
-# Now, you can access the components you saved in the dictionary where .
-scaler = data_dict.get("scaler")
-model1 = data_dict.get("model1")
-#model2 = data_dict.get("model2")
+# Now, you can access the components you saved in the dictionary.
+scaler = data_dict["scaler"]
+model = data_dict["model"]
+
 
 def main():
 
@@ -70,7 +70,7 @@ def main():
 
 def home():
 
-        img = cv2.imread(r"C:\Users\HP\OneDrive - Azubi Africa\Pictures\sales.jpg")
+        img = cv2.imread('retail.jpg')
     # Rotate the image 90 degrees clockwise
         #img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert from BGR to RGB
@@ -88,24 +88,14 @@ Navigate using the sidebar(the arrow in the top left corner) to:
 
 def predict_sales():
     st.title("Predict Sales")
-    
-    st.write("This is used to predict sales per stores according to various factors")
 
     # Form for prediction
     with st.form(key="prediction_form"):
-        family =st.selectbox("What Family is your product categorize under:",['AUTOMOTIVE', 'BABY CARE','BEAUTY', 'BEVERAGES', 'BOOKS','BREAD/BAKERY', 'CELEBRATION', 'CLEANING',
-                                                                              'DAIRY', 'DELI', 'EGGS', 'FROZEN FOODS','GROCERY I', 'GROCERY II', 'HARDWARE',
-                                                                              'HOME AND KITCHEN I', 'HOME AND KITCHEN II','HOME APPLIANCES', 'HOME CARE', 'LADIESWEAR','LAWN AND GARDEN',
-                                                                              'LINGERIE', 'LIQUOR,WINE,BEER','MAGAZINES', 'MEATS', 'PERSONAL CARE','PET SUPPLIES', 'PLAYERS AND ELECTRONICS',
-                                                                              'POULTRY', 'PREPARED FOODS', 'PRODUCE','SCHOOL AND OFFICE SUPPLIES', 'SEAFOOD'])
-        store_city =st.selectbox("What city does the product under goes:",['Ambato', 'Babahoyo', 'Cayambe','Cuenca', 'Daule', 'El Carmen',
-                                                                           'Esmeraldas', 'Guaranda', 'Guayaquil','Ibarra', 'Latacunga', 'Libertad',
-                                                                           'Loja', 'Machala', 'Manta','Playas', 'Puyo', 'Quevedo','Quito', 'Riobamba',
-                                                                           'Salinas','Santo Domingo'])
-        oil_price = st.number_input("The Price of the oil:")
-        store_nbr =st.slider("What store number of the product:", 1,54)
-        holiday = st.selectbox("Is Today a Holiday :", ['Holiday', 'Not Holiday', 'Work Day', 'Additional', 'Event', 'Transfer','Bridge'])
-        locale= st.radio("What holiday category does it fall under :", ['National', 'Not Holiday', 'Local', 'Regional'])
+        holiday = st.selectbox("Is Today a Holiday :", ['Holiday', 'Not Holiday', 'Work Day',
+                                                        'Additional', 'Event', 'Transfer',
+                                                        'Bridge'])
+        locale= st.radio("What holiday category does it fall under :", ['National', 'Not Holiday',
+                                                                        'Local', 'Regional'])
         Transferred = st.radio("Is the Holiday Transferred :", ['Yes', 'No'])
         onpromotion = st.number_input("What items on Promotion : ")
         
@@ -113,10 +103,6 @@ def predict_sales():
         if st.form_submit_button("Predict"):
             try:
                 df_input = pd.DataFrame({
-                    "family":[family],
-                    "oil_price":[oil_price],
-                    "store_nbr":[store_nbr],
-                    "store_city":[store_city],
                     "holiday": [holiday],
                     "locale": [locale],
                     "Transferred": [Transferred],
@@ -129,12 +115,10 @@ def predict_sales():
                 # Ensuring the input data has the same columns as training data
                 # Here, 'model_columns' is a list of columns used in the trained model.
                 # This might come from the training data's columns after one-hot encoding.
-                model_columns = ['store_nbr', 'onpromotion', 'oil_price','AUTOMOTIVE', 'CARE','BEAUTY', 'BEVERAGES', 'BOOKS','BREAD/BAKERY', 'CELEBRATION',
-                                 'CLEANING','DAIRY', 'DELI', 'EGGS', 'FROZEN FOODS','GROCERY I', 'GROCERY II', 'HARDWARE','HOME AND KITCHEN I', 'HOME AND KITCHEN II',
-                                 'HOME APPLIANCES', 'HOME CARE', 'LADIESWEAR','LAWN AND GARDEN', 'LINGERIE', 'LIQUOR,WINE,BEER','MAGAZINES', 'MEATS', 'PERSONAL CARE',
-                                 'PET SUPPLIES', 'PLAYERS AND ELECTRONICS','POULTRY', 'PREPARED FOODS', 'PRODUCE','SCHOOL AND OFFICE SUPPLIES', 'SEAFOOD','Ambato',
-                                 'Babahoyo', 'Cayambe','Cuenca', 'Daule', 'El Carmen','Esmeraldas', 'Guaranda', 'Guayaquil','Ibarra', 'Latacunga', 'Libertad','Loja',
-                                 'Machala', 'Manta','Playas', 'Puyo', 'Quevedo','Quito', 'Riobamba', 'Salinas','Santo Domingo', 'Holiday','No Event']
+                model_columns = ['onpromotion', 'holiday_Additional', 'holiday_Bridge', 'holiday_Event', 
+                    'holiday_Holiday', 'holiday_Not Holiday', 'holiday_Transfer', 'holiday_Work Day', 
+                    'locale_Local', 'locale_National', 'locale_Not Holiday', 'locale_Regional', 
+                    'transferred_False', 'transferred_True']
 
                 for col in model_columns:
                     if col not in df_encoded.columns:
@@ -144,7 +128,7 @@ def predict_sales():
                 df_encoded = df_encoded[model_columns]
 
                 # Now you can predict
-                predictions = model1.predict(df_encoded)
+                predictions = model.predict(df_encoded)
 
                 # Display predicted sales
                 st.balloons()
@@ -159,7 +143,7 @@ def predict_sales():
 
 def explore_data():
     st.title("Explore Data")
-    df = pd.read_csv('sales.csv')
+    df = pd.read_csv("ts_data.csv")
     st.write(df)
 
 def about_info():

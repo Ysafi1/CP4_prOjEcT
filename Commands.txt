@@ -1,6 +1,6 @@
 python3 -m venv venv; source venv/bin/activate; python -m pip install -q --upgrade pip; python -m pip install -qr --upgrade requirements.txt
 
-python -m venv .venver
-source .venver/Scripts\Activate.ps1
+python -m venv .inv
+source .inv/Scripts\Activate.ps1
 python -m pip install -q --upgrade pip
 python -m pip install -qr --upgrade requirements.txt
